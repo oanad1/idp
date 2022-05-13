@@ -1,10 +1,14 @@
 const mongoose = require("mongoose");
-const User = require("./User.model");
 
-const connection = "mongodb://mongo:27017/mongo-test";
+var options = {
+  user: process.env.MONGO_USER,
+  pass: process.env.MONGO_PASS
+};
 
 const connectDb = () => {
-  return mongoose.connect(connection);
+  return mongoose.connect(process.env.MONGO_CONN_STRING,options)
+  .then(res => console.log("Connected to DB"))
+  .catch(err => console.log(err));
 };
 
 module.exports = connectDb;

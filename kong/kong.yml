@@ -1,0 +1,17 @@
+_format_version: "2.1"
+
+services:
+  - name: api
+    url: http://idp_web_service:8080
+    routes:
+      - name: web-service-route
+        paths: 
+          - /api
+
+  - name: ui
+    url: http://idp_ui:3000
+    routes:
+      - name: ui-route
+        paths: 
+          - /home
+          

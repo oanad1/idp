@@ -1,12 +1,12 @@
 const express = require("express");
-const app = express();
 const connectDb = require("./src/connection");
-const User = require("./src/User.model");
 const cors = require('cors');
-const PORT = 8080;
-
-// !!Nu sterge - frontendul e pe port 3000 si backendul pe port 8080 ceea ce creaza o problema CORS
+const app = express();
 app.use(cors());
+
+
+// ----- Test API - se poate sterge
+const User = require("./src/User.model");
 
 // Get users from MongoDB
 app.get("/users", async (req, res) => {
@@ -23,10 +23,12 @@ app.get("/user-create", async (req, res) => {
   
     res.send("User created \n");
   });
-
+// ---------
   
-app.listen(PORT, function() {
-  console.log(`Listening on ${PORT}`);
+
+
+app.listen(process.env.PORT, function() {
+  console.log(`Listening on ${process.env.PORT}`);
 
   connectDb().then(() => {
     console.log("MongoDb connected");

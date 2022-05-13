@@ -1,4 +1,4 @@
-// User.model.js
+// User.model.js - se poate sterge
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({

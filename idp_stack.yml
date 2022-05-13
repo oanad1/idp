@@ -1,0 +1,132 @@
+version: '3.8'
+services:
+  ui:
+    image: oanad1/idp_ui:basic
+    ports:
+      - '3000:3000'
+    depends_on:
+      - web_service
+    volumes: 
+      - ./ui:/usr/src/app
+    networks:
+      - frontend
+      - kong_net
+  
+  web_service:
+    image: oanad1/idp_web_service:basic
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mongo
+    volumes: 
+      - /usr/src/app/node_modules
+      - ./api:/usr/src/app
+    environment:
+      PORT: 8080
+      MONGO_CONN_STRING: mongodb://idp_mongo:27017/app_db
+      MONGO_USER: client
+      MONGO_PASS: client
+    networks:
+      - backend
+      - frontend
+      - kong_net
+  
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes: 
+      - mongo_data:/data/db
+      - ./db/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    command: mongod --auth
+    environment:
+      MONGO_INITDB_DATABASE: app_db
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - backend
+      - db_admin_net
+    
+
+  mongo-express:
+    image: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_URL: mongodb://admin:admin@idp_mongo:27017/
+    depends_on:
+      - mongo
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    networks:
+      - db_admin_net
+  
+  
+  kong:
+    image: kong:latest
+    volumes:
+      - ./kong:/usr/local/kong/declarative
+    environment:
+      KONG_DATABASE: 'off'
+      KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+    ports:
+      - 80:8000
+      - 443:8443
+      - 8001:8001
+      - 8444:8444
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - kong_net
+  
+
+  agent:
+    image: portainer/agent:2.9
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    networks:
+      - agent_network
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+  
+
+  portainer:
+    image: portainer/portainer-ce:2.9
+    command: -H tcp://tasks.agent:9001 --tlsskipverify
+    ports:
+      - "9443:9443"
+      - "9000:9000"
+      - "8000:8000"
+    volumes:
+      - portainer_data:/data
+    networks:
+      - agent_network
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+
+
+volumes: 
+  mongo_data:
+  portainer_data:
+
+networks:
+  frontend:
+  backend:
+  db_admin_net:
+  kong_net:
+  agent_network:
+    driver: overlay
+    attachable: true

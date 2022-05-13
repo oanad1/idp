@@ -1,19 +1,69 @@
-version: '2'
+version: '3.8'
 services:
   ui:
     build: ./ui
     ports:
       - '3000:3000'
     depends_on:
-      - api
-  api:
+      - web_service
+    volumes: 
+      - ./ui:/usr/src/app
+    networks:
+      - frontend
+  
+  web_service:
     build: ./api
     ports:
       - '8080:8080'
     depends_on:
       - mongo
+    volumes: 
+      - /usr/src/app/node_modules
+      - ./api:/usr/src/app
+    environment:
+      PORT: 8080
+      MONGO_CONN_STRING: mongodb://mongo:27017/app_db
+      MONGO_USER: client
+      MONGO_PASS: client
+    networks:
+      - backend
+      - frontend
+  
   mongo:
     image: mongo
     ports:
       - '27017:27017'
+    volumes: 
+      - mongo_data:/data/db
+      - ./db/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    command: mongod --auth
+    environment:
+      MONGO_INITDB_DATABASE: app_db
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - backend
+      - db_admin_net
+    
 
+  mongo-express:
+    image: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_URL: mongodb://admin:admin@mongo:27017/
+    depends_on:
+      - mongo
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    networks:
+      - db_admin_net
+  
+volumes: 
+  mongo_data:
+
+networks:
+  frontend:
+  backend:
+  db_admin_net:

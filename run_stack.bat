@@ -1,0 +1,1 @@
+docker stack deploy -c idp_stack.yml idp
