@@ -8,6 +8,7 @@ services:
       - web_service
     volumes: 
       - ./ui:/usr/src/app
+      - /usr/src/app/node_modules
     networks:
       - frontend
       - kong_net
@@ -124,9 +125,13 @@ volumes:
 
 networks:
   frontend:
+    attachable: true
   backend:
+    attachable: true
   db_admin_net:
+    attachable: true
   kong_net:
+    attachable: true
   agent_network:
     driver: overlay
     attachable: true

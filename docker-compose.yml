@@ -6,7 +6,8 @@ services:
       - '3000:3000'
     depends_on:
       - web_service
-    volumes: 
+    volumes:
+      - /usr/src/app/node_modules
       - ./ui:/usr/src/app
     networks:
       - frontend
@@ -65,5 +66,8 @@ volumes:
 
 networks:
   frontend:
+    attachable: true
   backend:
+    attachable: true
   db_admin_net:
+    attachable: true
