@@ -45,7 +45,6 @@ services:
     networks:
       - backend
       - db_admin_net
-    
 
   mongo-express:
     image: mongo-express
@@ -60,7 +59,15 @@ services:
       - "8081:8081"
     networks:
       - db_admin_net
-  
+
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - rabbitmq
+
 volumes: 
   mongo_data:
 
@@ -70,4 +77,6 @@ networks:
   backend:
     attachable: true
   db_admin_net:
+    attachable: true
+  rabbitmq:
     attachable: true

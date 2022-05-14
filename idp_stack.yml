@@ -47,7 +47,6 @@ services:
     networks:
       - backend
       - db_admin_net
-    
 
   mongo-express:
     image: mongo-express
@@ -63,7 +62,6 @@ services:
     networks:
       - db_admin_net
   
-  
   kong:
     image: kong:latest
     volumes:
@@ -77,16 +75,15 @@ services:
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
     ports:
-      - 80:8000
-      - 443:8443
-      - 8001:8001
-      - 8444:8444
+      - '80:8000'
+      - '443:8443'
+      - '8001:8001'
+      - '8444:8444'
     deploy:
       placement:
         constraints: [node.role == manager]
     networks:
       - kong_net
-  
 
   agent:
     image: portainer/agent:2.9
@@ -99,7 +96,6 @@ services:
       mode: global
       placement:
         constraints: [node.platform.os == linux]
-  
 
   portainer:
     image: portainer/portainer-ce:2.9
@@ -118,7 +114,13 @@ services:
       placement:
         constraints: [node.role == manager]
 
-
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - rabbitmq
 volumes: 
   mongo_data:
   portainer_data:
@@ -134,4 +136,6 @@ networks:
     attachable: true
   agent_network:
     driver: overlay
+    attachable: true
+  rabbitmq:
     attachable: true
