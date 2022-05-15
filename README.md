@@ -14,7 +14,7 @@ docker volume rm $(docker volume ls -q)   \\ !! Sterge volumele deci si datele d
 
 Pentru un rebuild al proiectului trebuie oprite si repornite containerele. <br>
 Dupa ce pornesc o sa fie vizibile asa: <br>
-- **Frontend**: http://localhost:3000 <br>
+- **Frontend**: http://localhost:4000 <br>
 - **Backend**: http://localhost:8080 <br>
 - **Mongo Express** pentru gestiunea bazei de date: http://localhost:8081 <br><br>
 
@@ -49,7 +49,6 @@ Am facut stack-ul de Docker Swarm separat si am scris 2 scripturi de Windows car
 Am pus imaginile de la api/ si ui/ pe contul meu de Docker Hub. PM me pentru acces ;)) <br>
 
 Pentru Kong API-ul merge accesat la http://localhost/api/users si frontendul ar trebui sa mearga la http://localhost/home dar nu merg CSS-ul si alte chestii statice. <br>
-La Portainer am dat copy paste din lab si la mine nu merge local pentru ca trebuie Linux. O sa incerc sa fac mizeriile alea cu mai multi workeri sa vad daca merge asa sa testam. <br>
 
 Parola Portainer: adminidp
 
