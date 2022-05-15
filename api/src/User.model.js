@@ -1,9 +1,21 @@
-// User.model.js - se poate sterge
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   username: {
-    type: String
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  isAdmin: {
+    type: Boolean,
+    required: true,
+  },
+  locationID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Location",
   }
 });
 

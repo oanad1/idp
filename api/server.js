@@ -7,6 +7,8 @@ app.use(cors());
 
 // ----- Test API - se poate sterge
 const User = require("./src/User.model");
+const Location = require("./src/Location.model");
+const Product = require("./src/Products.model");
 
 // Get users from MongoDB
 app.get("/users", async (req, res) => {
