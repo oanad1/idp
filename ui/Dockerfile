@@ -9,5 +9,5 @@ RUN npm install --silent
 COPY . .
 
 #Expose port and start application
-EXPOSE 3000
+EXPOSE 4000
 CMD ["npm", "start"]

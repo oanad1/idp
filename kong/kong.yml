@@ -9,7 +9,7 @@ services:
           - /api
 
   - name: ui
-    url: http://idp_ui:3000
+    url: http://idp_ui:4000
     routes:
       - name: ui-route
         paths: 

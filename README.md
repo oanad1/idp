@@ -49,9 +49,14 @@ Am facut stack-ul de Docker Swarm separat si am scris 2 scripturi de Windows car
 Am pus imaginile de la api/ si ui/ pe contul meu de Docker Hub. PM me pentru acces ;)) <br>
 
 Pentru Kong API-ul merge accesat la http://localhost/api/users si frontendul ar trebui sa mearga la http://localhost/home dar nu merg CSS-ul si alte chestii statice. <br>
-La Portainer am dat copy paste din lab si la mine nu merge local pentru ca trebuie Linux. O sa incerc sa fac mizeriile alea cu mai multi workeri sa vad daca merge asa sa testam.
+La Portainer am dat copy paste din lab si la mine nu merge local pentru ca trebuie Linux. O sa incerc sa fac mizeriile alea cu mai multi workeri sa vad daca merge asa sa testam. <br>
 
-Raman astea de facut:
-- trebuie sa folositi rabbitMQ (sau orice alta coada de mesaje)
-- trebuie sa implementati un sistem de logging al sistemului, cu dashboard pentru observabilitate (2p)
-- trebuie ca proiectul vostru sa adere la standardele CI/CD, si sa aiba minim 3 etape: build, test, deploy (2p)
+Parola Portainer: adminidp
+
+### Loki
+
+```
+docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
+docker plugin ls
+```
+Credentiale Grafana: admin/admin

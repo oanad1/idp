@@ -1,9 +1,9 @@
 version: '3.8'
 services:
   ui:
-    image: oanad1/idp_ui:basic
+    image: oanad1/idp_ui:2.0
     ports:
-      - '3000:3000'
+      - '4000:3000'
     depends_on:
       - web_service
     volumes: 
@@ -27,10 +27,16 @@ services:
       MONGO_CONN_STRING: mongodb://idp_mongo:27017/app_db
       MONGO_USER: client
       MONGO_PASS: client
+    logging:
+      driver: loki
+      options:
+        loki-url: http://host.docker.internal:3100/loki/api/v1/push
+        loki-external-labels: job=proiectidp
     networks:
       - backend
       - frontend
       - kong_net
+      - logging
   
   mongo:
     image: mongo
@@ -86,7 +92,7 @@ services:
       - kong_net
 
   agent:
-    image: portainer/agent:2.9
+    image: portainer/agent:2.11.1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
@@ -98,7 +104,7 @@ services:
         constraints: [node.platform.os == linux]
 
   portainer:
-    image: portainer/portainer-ce:2.9
+    image: portainer/portainer-ce:2.11.1
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     ports:
       - "9443:9443"
@@ -121,9 +127,41 @@ services:
       - '15672:15672'
     networks:
       - rabbitmq
+  
+  loki:
+    image: grafana/loki
+    volumes:
+        - ./loki/loki.yml:/etc/config/loki.yml
+        - ./loki/wal:/wal
+    entrypoint:
+        - /usr/bin/loki
+        - -config.file=/etc/config/loki.yml
+    ports:
+        - 3100:3100
+    networks:
+        - logging
+        - visualizing
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+        - grafana-volume:/var/lib/grafana
+    ports:
+        - 3000:3000
+    depends_on:
+        - loki
+    deploy:
+        placement:
+            constraints: [node.role == manager]
+    networks:
+        - visualizing
+
+
+      
 volumes: 
   mongo_data:
   portainer_data:
+  grafana-volume:
 
 networks:
   frontend:
@@ -138,4 +176,8 @@ networks:
     driver: overlay
     attachable: true
   rabbitmq:
+    attachable: true
+  logging:
+    attachable: true
+  visualizing:
     attachable: true
