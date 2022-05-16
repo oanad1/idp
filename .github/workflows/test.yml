@@ -17,8 +17,14 @@ jobs:
         with:
           node-version: "14.x"
       - 
-        name: Run tests
+        name: Run tests on backend
         run: |
           npm ci
           npm test
         working-directory: ./api
+      - 
+        name: Run tests on frontend
+        run: |
+          npm ci
+          npm test
+        working-directory: ./ui
