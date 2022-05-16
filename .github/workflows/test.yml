@@ -19,7 +19,7 @@ jobs:
           node-version: "14.x"
       - 
         working-directory: ./api
-        run: npm i
+        run: npm ci
       - 
         working-directory: ./api
         run: npm test
