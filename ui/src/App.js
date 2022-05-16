@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo_donathor.png';
 import axios from 'axios';
 import './App.css';
 import Wrapper from './utils/AuthWrapper';
@@ -32,9 +31,6 @@ class App extends Component {
     return (
       <Wrapper>
         <Router />
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
             {/* <button onClick={() => this.createUser()}>Create User</button>
             <p>Users list:</p>
             <ul>
@@ -42,8 +38,7 @@ class App extends Component {
                 <li key={user._id}>id: {user._id}</li>
               ))}
             </ul> */}
-          </header>
-        </div>
+            {/* <DonationCard city="Bucuresti" center="Centru A" product="Apa" q_current="50" q_target="100" metric="baxuri" active notif handleDonate={handleDonate} handleNotif={handleNotif} /> */}
       </Wrapper>
       
     );

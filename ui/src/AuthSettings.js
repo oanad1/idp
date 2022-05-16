@@ -5,4 +5,4 @@ const authSettings = {
     audience: "http://donathor-api.com"
   };
   
-  export { authSettings };
+export { authSettings };

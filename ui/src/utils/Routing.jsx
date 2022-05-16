@@ -12,6 +12,7 @@ const Router = () => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   useEffect(() => {
+    console.log(isAuthenticated)
     if (!isAuthenticated) {
       loginWithRedirect();
     }
@@ -20,12 +21,12 @@ const Router = () => {
     isAuthenticated && (
       <BrowserRouter>
         <Routes>
-            <Route exact path="/" element={UserDonations} />
-            <Route exact path="/subscriptions" element={Subscriptions} />
-            <Route exact path="/panel" element={UserInfos} />
-            <Route exact path="/admin" element={AdminDonations} />
-            <Route exact path="/admin/product" element={Products} />
-            <Route exact path="/admin/panel" element={AdminInfos} />
+            <Route path="/" element={<UserDonations />} />
+            <Route path="/subscriptions" element={<Subscriptions />} />
+            <Route path="/panel" element={<UserInfos />} />
+            <Route path="/admin" element={<AdminDonations />} />
+            <Route path="/admin/product" element={<Products />} />
+            <Route path="/admin/panel" element={<AdminInfos />} />
         </Routes>
       </BrowserRouter>
     )
