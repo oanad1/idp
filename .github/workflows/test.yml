@@ -14,12 +14,11 @@ jobs:
       -
         name: Setup node
         uses: actions/setup-node@v2
-        working-directory: ./api
         with:
           node-version: "14.x"
       - 
+        name: Run tests
+        run: |
+          npm ci
+          npm test
         working-directory: ./api
-        run: npm ci
-      - 
-        working-directory: ./api
-        run: npm test
