@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   ui:
-    image: oanad1/idp_ui:2.0
+    image: oanad1/idp_ui:latest
     ports:
       - '4000:3000'
     depends_on:
@@ -14,7 +14,7 @@ services:
       - kong_net
   
   web_service:
-    image: oanad1/idp_web_service:basic
+    image: oanad1/idp_web_service:latest
     ports:
       - '8080:8080'
     depends_on:
