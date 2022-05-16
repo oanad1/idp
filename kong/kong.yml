@@ -7,11 +7,3 @@ services:
       - name: web-service-route
         paths: 
           - /api
-
-  - name: ui
-    url: http://idp_ui:4000
-    routes:
-      - name: ui-route
-        paths: 
-          - /home
-          
