@@ -29,6 +29,7 @@ services:
     networks:
       - backend
       - frontend
+      - rmq
   
   mongo:
     image: mongo
@@ -66,7 +67,14 @@ services:
       - '5672:5672'
       - '15672:15672'
     networks:
+      - rmq
+  
+  worker:
+    image: mobylab/idp-laborator7-worker
+    depends_on:
       - rabbitmq
+    networks:
+      - rmq
 
 volumes: 
   mongo_data:
@@ -78,5 +86,5 @@ networks:
     attachable: true
   db_admin_net:
     attachable: true
-  rabbitmq:
+  rmq:
     attachable: true
