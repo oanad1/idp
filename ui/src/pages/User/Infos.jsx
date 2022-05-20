@@ -1,17 +1,24 @@
-import React, { Component } from 'react';
-import logo from '../../logo_donathor.png';
-import '../../App.css';
+import React from "react";
+import '../Admin/MainPageUser.css';
+import Header from '../../components/Header/Header'
+import AccountDataFormUser from '../../components/AccountDataForm/AccountDataFormUser'
 
-class UserInfos extends Component {
-    render() {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                </header>
-            </div>
-        );
-    }
-}
+const InfoPageUser= () =>
+{
+  const username = "Adrian Minune";
+  return (
+    <div className="donation-page-admin">
+        
+        <div className='new-donation-form'>
+            <AccountDataFormUser username="Adrian Minune" email="minune@manele.ro" phone="0000111122"/>       
+            
+        </div>
+        <div className='header'>
+            <Header username={username}/>
+        </div>
+      
+    </div>
+  );
+};
 
-export default UserInfos;
+export default InfoPageUser;

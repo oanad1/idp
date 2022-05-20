@@ -1,25 +1,17 @@
 import React from "react";
 import "./DonationCard.css";
 import bell from '../../media/bell.png';
-import DonationFormModal from '../DonationForm/DonationFormModal';
 
-const DonationCard = ({
+const DonationCardConfirm = ({
     city,
     center,
     product,
-    q_current,
-    q_target,
+    q_donated,
     active,
     notif
 }) => {
-    const [isOpenForm, setIsOpenForm] = React.useState(false);
     const handleNotif = () => {
         console.log(`Notif ${ product } ${ city } ${ center }`);
-    }
-
-    const handleDonate = () => {
-        console.log(`Donate ${ product } ${ city } ${ center }`);
-        setIsOpenForm(true);
     }
 
     return(
@@ -37,39 +29,36 @@ const DonationCard = ({
             </div>
             <div className="product-quantity">
                 <p>
-                    {q_current} / {q_target} bucati
+                    {q_donated} bucati
                 </p>
             </div>
         </div>
         <div className="button-div">
         {
-            !active && <button disabled className="donate-button inactive-button"> Donatie incheiata</button>
+            !active && <button disabled className="donate-button inactive-button confirmed-donate"> Donatie confirmata</button>
         }
         {
-            active &&  <button className="donate-button " onClick={() => handleDonate()}>
-                Doneaza
+            active &&  <button disabled className="donate-button unconfirmed-donate">
+                Se asteapta donatia
             </button>
         }
         </div>
         </div>
         <div className="donation-notif">
             {
-                notif && <button className="notif-icon" onClick={() => handleNotif()}>
+                notif && <button className="notif-icon" onClick={() => handleNotif({city, center, product})}>
                     <img className="notif-icon" src={bell}></img>
                 </button>
             }{
-                !notif && <button className="notif-icon inactive-notif" onClick={() => handleNotif()}>
+                !notif && <button className="notif-icon inactive-notif" onClick={() => handleNotif({city, center, product})}>
                 <img className="notif-icon" src={bell}></img>
                 </button>
             }
         </div>
-        {
-            isOpenForm && <DonationFormModal city={city} center={center} product={product} q_current={q_current} q_target={q_target} setIsOpenForm={setIsOpenForm} />
-        }
     </div>
 
     
 );
 };
 
-export default DonationCard;
+export default DonationCardConfirm;

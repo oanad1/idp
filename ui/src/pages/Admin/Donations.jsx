@@ -1,17 +1,44 @@
-import React, { Component } from 'react';
-import logo from '../../logo_donathor.png';
-import '../../App.css';
+import React from "react";
+import './MainPageUser.css';
+import DonationCardAdmin from '../../components/DonationCard/DonationCardAdmin';
+import HeaderAdmin from '../../components/Header/HeaderAdmin';
+import add from '../../media/add.png';
 
-class AdminDonations extends Component {
-    render() {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                </header>
+
+const AdminDonations = ({username}) => {
+  const handleAdd = () => {
+    // navigate('/new-donation', true);
+  }
+  return (
+    <div className="main-page-user">
+        
+        <div className='content'>
+                     
+            <div className="donations">
+            <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="50" q_target="100"  active={true} />
+            <DonationCardAdmin city="Bucuresti" center="Centru B" product="Apa minerala" q_current="100" q_target="100"  active={false} />
+            <DonationCardAdmin city="Bucuresti" center="Centru C" product="Apa minerala" q_current="50" q_target="100"  active={true} />
+            <DonationCardAdmin city="Bucuresti" center="Centru D" product="Apa minerala" q_current="100" q_target="100"  active={false} />
+            <DonationCardAdmin city="Bucuresti" center="Centru E" product="Apa minerala" q_current="50" q_target="100"  active={true} />
+            <DonationCardAdmin city="Bucuresti" center="Centru F" product="Apa minerala" q_current="100" q_target="100"  active={false} />
+            <DonationCardAdmin city="Bucuresti" center="Centru G" product="Apa minerala" q_current="50" q_target="100"  active={true} />
+            <DonationCardAdmin city="Bucuresti" center="Centru H" product="Apa minerala" q_current="100" q_target="100" active={false}  />
             </div>
-        );
-    }
-}
+            <div className="message">
+                <p>Donatii la centrul tau</p>
+            </div>  
+        </div>
+        <div className='header'>
+        <HeaderAdmin username={username} />
+        </div>
+        <div className="add-donation">
+          <button className="add-button" onClick={handleAdd}>
+            <img src={add} className="add-icon"/>
+          </button>
+        </div>
+      
+    </div>
+  );
+};
 
 export default AdminDonations;

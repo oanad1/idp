@@ -1,17 +1,24 @@
-import React, { Component } from 'react';
-import logo from '../../logo_donathor.png';
-import '../../App.css';
+import React from "react";
+import './MainPageUser.css';
+import HeaderAdmin from '../../components/Header/HeaderAdmin'
+import AccountDataFormAdmin from '../../components/AccountDataForm/AccountDataFormAdmin'
 
-class AdminInfos extends Component {
-    render() {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                </header>
-            </div>
-        );
-    }
-}
+const AdminInfos = () =>
+{
+  const username = "Adrian Minune";
+  return (
+    <div className="donation-page-admin">
+        
+        <div className='new-donation-form'>
+            <AccountDataFormAdmin username="Adrian Minune" email="minune@manele.ro" phone="0000111122" center="Centru B"/>       
+            
+        </div>
+        <div className='header'>
+            <HeaderAdmin username={username}/>
+        </div>
+      
+    </div>
+  );
+};
 
 export default AdminInfos;

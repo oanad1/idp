@@ -1,0 +1,124 @@
+@import "@font/nunito";
+
+.new-donation {
+    width: 838px;
+    /* height: 404px; */
+    height:fit-content;
+    padding: 10px;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #D7D7D7;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.new-donation-form {
+    width: 838px;
+    height: fit-content;
+    padding: 10px;
+    align-items: center;
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.donation-form {
+    align-self: center !important;
+    width:600px;
+}
+
+.form-title {
+    font-weight: 800;
+    font-size: 32px;
+
+    display:flex;
+}
+
+.field {
+    border:0px;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 44px;
+    text-align: left;
+    justify-content:space-between;
+    align-items:stretch;
+
+    display: flex;
+    
+}
+
+.submit-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    gap: 10px;
+
+    position: absolute;
+    width: 197px;
+    height: 46px;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    /* left: 320px;
+    top: 336px; */
+
+    /* Secondary */
+
+    background: #226B03;
+    border-radius: 20px;
+
+    font-family: var(--fontFamily-nunito);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    color: #FEFEFE;
+    cursor: pointer;
+}
+
+.confirm-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    gap: 10px;
+
+    position: relative;
+    width: 197px;
+    height: 46px;
+    top: 0px;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    /* Secondary */
+
+    background: #226B03;
+    border-radius: 20px;
+
+    font-family: var(--fontFamily-nunito);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    color: #FEFEFE;
+    cursor: pointer;
+}
+
+.cancel-button {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    top: 10px;
+    left: 280px;
+    color:black;
+    font-size: 24px;
+    background-color: transparent;
+    font-family: var(--fontFamily-nunito);
+    font-weight: 700;
+    border: 0px;
+    cursor: pointer;
+
+}
