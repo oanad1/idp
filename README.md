@@ -38,24 +38,18 @@ mongo
 ```
 Dupa ar trebui sa mearga sa vedeti chestii pe acolo.
 
-## Alte chestii
-Proiectul e doar ceva basic ca sa testam ca merge. Puteti modifica orice in api/ si ui/ doar nu stergeti nimic legat de conexiune sau url-uri :))
 
+## Kong
+Pentru Kong API-ul merge accesat la http://localhost/api/users
 
-
-## IDP
-
-Am facut stack-ul de Docker Swarm separat si am scris 2 scripturi de Windows care il pornesc si opresc ca mi-era lene sa dau mereu comenzile alea.
-Am pus imaginile de la api/ si ui/ pe contul meu de Docker Hub. PM me pentru acces ;)) <br>
-
-Pentru Kong API-ul merge accesat la http://localhost/api/users si frontendul ar trebui sa mearga la http://localhost/home dar nu merg CSS-ul si alte chestii statice. <br>
-
+## Portainer
 Parola Portainer: adminidp
 
-### Loki
+## Loki
 
 ```
 docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 docker plugin ls
 ```
-Credentiale Grafana: admin/admin
+**Credentiale Grafana**: admin/admin <br>
+Pentru a vedea log-urile in Grafana: Configuration -> Data Sources -> Loki -> Se completeaza http://loki:3100 la URL -> Save & Test

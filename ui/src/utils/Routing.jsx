@@ -10,17 +10,26 @@ import Auth from "../pages/Auth";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Router = () => {
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  useEffect(() => {
+    if (!isAuthenticated) {
+      loginWithRedirect();
+    }
+  }, [isAuthenticated, loginWithRedirect]);
+  return (
+      isAuthenticated &&
       <BrowserRouter>
         <Routes>
-            <Route path="/" key={"userdonations"} element={<UserDonations />} />
-            <Route path="/login" key={"login"} element={<Auth />} />
-            <Route path="/subscriptions" key={"subscriptions"} element={<Subscriptions />} />
-            <Route path="/panel" key={"userpanel"} element={<UserInfos />} />
-            <Route path="/admin" key={"admindonations"} element={<AdminDonations />} />
-            <Route path="/admin/product" key={"products"} element={<Products />} />
-            <Route path="/admin/panel" key={"adminpanel"} element={<AdminInfos />} />
+            <Route path="/" element={<UserDonations />} />
+            <Route path="/register" element={<Auth />} />
+            <Route path="/subscriptions" element={<Subscriptions />} />
+            <Route path="/panel" element={<UserInfos />} />
+            <Route path="/admin" element={<AdminDonations />} />
+            <Route path="/admin/product" element={<Products />} />
+            <Route path="/admin/panel" element={<AdminInfos />} />
         </Routes>
       </BrowserRouter>
+  );
 };
 
 export default Router;
