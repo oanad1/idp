@@ -45,11 +45,11 @@ Pentru Kong API-ul merge accesat la http://localhost/api/users
 ## Portainer
 Parola Portainer: adminidp
 
-### Loki
+## Loki
 
 ```
 docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 docker plugin ls
 ```
-Credentiale Grafana: admin/admin
+**Credentiale Grafana**: admin/admin <br>
 Pentru a vedea log-urile in Grafana: Configuration -> Data Sources -> Loki -> Se completeaza http://loki:3100 la URL -> Save & Test
