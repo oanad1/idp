@@ -9,7 +9,13 @@ import { authSettings } from "./AuthSettings";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+      <Auth0Provider
+        domain="dev-5f2n3u3p.eu.auth0.com"
+        clientId="dqAJli3Xb4JWTmYaN6gCUIhpyaWzVPuE"
+        redirectUri={window.location.origin}
+      >
     <App />
+    </Auth0Provider>
   </React.StrictMode>
 );
 

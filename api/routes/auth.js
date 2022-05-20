@@ -1,70 +1,28 @@
-function login(email, password, callback) {
-    const bcrypt = require('bcrypt');
-    const MongoClient = require('mongodb@3.1.4').MongoClient;
-    const client = new MongoClient('mongodb://admin:admin@localhost:8081');
-  
-    client.connect(function (err) {
-      if (err) return callback(err);
-  
-      const db = client.db('db-name');
-      const users = db.collection('users');
-  
-      users.findOne({ email: email }, function (err, user) {
-        if (err || !user) {
-          client.close();
-          return callback(err || new WrongUsernameOrPasswordError(email));
-        }
-  
-        bcrypt.compare(password, user.password, function (err, isValid) {
-          client.close();
-  
-          if (err || !isValid) return callback(err || new WrongUsernameOrPasswordError(email));
-  
-          return callback(null, {
-              user_id: user._id.toString(),
-              email: user.email
-            });
-        });
-      });
-    });
-  }
+const express = require("express");
+const axios = require("axios").default;
 
-  function create(user, callback) {
-    const bcrypt = require('bcrypt');
-    const MongoClient = require('mongodb@3.1.4').MongoClient;
-    const client = new MongoClient('mongodb://admin:admin@localhost:8081');
-  
-    client.connect(function (err) {
-      if (err) return callback(err);
-  
-      const db = client.db('db-name');
-      const users = db.collection('User');
-  
-      users.findOne({ email: user.email }, function (err, withSameMail) {
-        if (err || withSameMail) {
-          client.close();
-          return callback(err || new Error('the user already exists'));
-        }
-  
-        bcrypt.hash(user.password, 10, function (err, hash) {
-          if (err) {
-            client.close();
-            return callback(err);
-          }
-  
-          user.password = hash;
-          user.isAdmin = false;
-          user.locationID = null;
-          user.notifications = [];
+const router = express.Router();
 
-          users.insert(user, function (err, inserted) {
-            client.close();
-  
-            if (err) return callback(err);
-            callback(null);
-          });
-        });
-      });
-    });
+const options = {
+  method: 'POST',
+  url: 'https://dev-5f2n3u3p.eu.auth0.com/oauth/token',
+  headers: {'content-type': 'application/x-www-form-urlencoded'},
+  data: {
+    grant_type: 'client_credentials',
+    client_id: 'dqAJli3Xb4JWTmYaN6gCUIhpyaWzVPuE',
+    client_secret: 'XHX8fTZfYxuzcUpm3ikIppBRagFB4T3hNhx99E3SMu6Vf5arU6ErGWTUilYePB0C',
+    audience: 'http://donathor-api.com'
   }
-  
+};
+
+router.post("/register", (req, res, next) => {
+  axios.request(options).then(function (response) {
+    console.log(response.data);
+    return res.status(200);
+  }).catch(function (error) {
+    console.error(error);
+    return res.status(500);
+  });
+})
+
+module.exports = router;
