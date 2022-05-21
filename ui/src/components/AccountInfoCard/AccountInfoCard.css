@@ -1,0 +1,64 @@
+.account {
+    display: flex;
+    width:fit-content;
+    border: 4px;
+    justify-content: space-between;
+
+    
+    
+}
+
+.donation-icon {
+    flex:1;
+    width: 50px;
+}
+
+.notif-icon {
+    flex:1;
+    width: 50px;
+}
+
+.account-box {
+    flex:6;
+    display: flex;
+    width: 200px;
+    
+}
+
+.account-info {
+    flex:3;
+    text-align: right;
+    line-height: 20px;
+    padding-right: 8px;
+}
+
+.username {
+    padding-left: 10px;
+    margin: 0px;
+    font-weight: 700;
+    font-size: 18px;
+    align-items: center;
+    text-align: right;
+    
+}
+
+.signout {
+    margin:0;
+    padding:0;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: right;
+
+    color: #000000;
+
+    opacity: 0.5;
+}
+
+.profile-picture {
+    flex:1;
+}
+
+.buttons {
+    background-color: white;
+    border: 0px;
+}

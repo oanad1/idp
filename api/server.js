@@ -16,13 +16,12 @@ const Product = require("./src/Products.model");
 // const auth = require("./routes/auth");
 
 app.post("/", async (req, res, next) => {
-  User.findById(req.body.email, function(user) {
-    if (!user.email) {
-      return res.json({isinDB: false});
+  User.findOne( {email: req.body.email}, function(error, user) {
+    if (error || !user) {
+      console.log(error);
+      return res.json({isinDB: false})
     }
-    else {
-      return res.json({isinDB: true});
-    }
+    return res.json({isinDB: true})
   })
 })
 
@@ -30,11 +29,13 @@ app.post("/register", async (req, res, next) => {
   const user = new User({
     username: req.body.Username,
     email: req.body.Email,
+    phoneNumber: req.body.PhoneNumber,
     isAdmin: false,
     locationID: null,
     notifications: [],
   })
   await user.save().then(() => console.log("User created"));
+  return res.status(200).json({message: 'ok'});
 })
 
 // Get users from MongoDB
