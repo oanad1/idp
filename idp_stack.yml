@@ -37,6 +37,7 @@ services:
       - frontend
       - kong_net
       - logging
+      - rmq
   
   mongo:
     image: mongo
@@ -126,7 +127,15 @@ services:
       - '5672:5672'
       - '15672:15672'
     networks:
+      - rmq
+    hostname: rabbitmq
+  
+  worker:
+    image: mobylab/idp-laborator7-worker
+    depends_on:
       - rabbitmq
+    networks:
+      - rmq
   
   loki:
     image: grafana/loki
@@ -175,7 +184,7 @@ networks:
   agent_network:
     driver: overlay
     attachable: true
-  rabbitmq:
+  rmq:
     attachable: true
   logging:
     attachable: true

@@ -2,6 +2,9 @@
 
     server:
       http_listen_port: 3100
+      http_server_read_timeout: 600s
+      http_server_write_timeout: 600s
+      http_server_idle_timeout: 300s
 
     ingester:
       lifecycler:
@@ -38,7 +41,7 @@
 
     chunk_store_config:
       max_look_back_period: 0
-
+    
     table_manager:
       chunk_tables_provisioning:
         inactive_read_throughput: 0
