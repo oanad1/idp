@@ -38,22 +38,69 @@ app.post("/register", async (req, res, next) => {
   return res.status(200).json({message: 'ok'});
 })
 
-// Get users from MongoDB
-app.get("/users", async (req, res) => {
-    const users = await User.find();
-  
-    res.json(users);
-});
+app.post("/get-user", async(req, res, next) => {
+  User.findOne( {email: req.body.email}, function(error, user) {
+    if (error || !user) {
+      console.log(error);
+      return res.status(500).json({message: error});
+    }
+    return res.json({user: user})
+  } )
+})
 
-// Create new user in MongoDB
-app.get("/user-create", async (req, res) => {
-    const user = new User({ username: "userTest" });
+app.post("/get-location", async(req, res, next) => {
+  User.findOne( {email: req.body.email}, function(error, user) {
+    if (error || !user) {
+      console.log(error);
+      return res.status(500).json({message: error});
+    }
+    Location.findById(user.locationID, function(error, location) {
+      if (error || !location) {
+        console.log(error);
+        return res.status(500).json({message: error});
+      }
+      return res.json({location: location});
+    } )
+  })
+})
+
+app.post("/req-donation", async(req, res, next) => {
+  User.findOne( {email: req.body.user.email}, async function(error, user) {
+    if (error || !user) {
+      console.log(error);
+      return res.status(500).json({message: error});
+    }
+    const prod = new Product({
+      name: req.body.produs,
+      locationID: user.locationID,
+      requestedQuantity: req.body.cantitate,
+      donatedQuantity: 0,
+    })
+    await prod.save().then(() => console.log("Product request made"));
+    return res.status(200).json({message: 'ok'});
+  })
+})
+
+// app.post("/req-donation", async(req, res, next) => {
+
+// })
+
+// // Get users from MongoDB
+// app.get("/users", async (req, res) => {
+//     const users = await User.find();
   
-    await user.save().then(() => console.log("User created"));
+//     res.json(users);
+// });
+
+// // Create new user in MongoDB
+// app.get("/user-create", async (req, res) => {
+//     const user = new User({ username: "userTest" });
   
-    res.send("User created \n");
-  });
-// ---------
+//     await user.save().then(() => console.log("User created"));
+  
+//     res.send("User created \n");
+//   });
+// // ---------
 
 app.listen(process.env.PORT, function() {
   console.log(`Listening on ${process.env.PORT}`);

@@ -2,10 +2,26 @@ import React from "react";
 import '../Admin/MainPageUser.css';
 import DonationCardConfirm from '../../components/DonationCard/DonationCardConfirm'
 import Header from '../../components/Header/Header'
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from 'axios';
 
 const UserDonations = () =>
 {
-  const username = "Adrian Minune";
+  const [DBUser, setDBUser] = React.useState({});
+  const { user, isAuthenticated } = useAuth0();
+
+  React.useEffect(() => {
+    const getUsers = async () => {
+        try {
+            const res = await axios.post("http://localhost:8080/get-user", user);
+            setDBUser(res.data.user);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    getUsers().catch(console.error);
+  }, [user, isAuthenticated])
+
   return (
     <div className="main-page-user">
         
@@ -22,7 +38,7 @@ const UserDonations = () =>
             </div>  
         </div>
         <div className='header'>
-        <Header username={username} />
+        <Header username={DBUser.username} />
         </div>
       
     </div>

@@ -8,21 +8,17 @@ import Header from '../../components/Header/Header';
 
 function handleDonate(city, center, product) {}
 function handleNotif (city, center, product) {}
-function handleLogoButton () {}
-function handleDonationButton () {}
-function handleNotifButton () {}
-function handleAccountButton () {}
 
 const MainUser = () => {
     const { user, isAuthenticated } = useAuth0();
     const [redirect, setRedirect] = React.useState(false);
+    const [DBUser, setDBUser] = React.useState({});
     let res = null;
 
     React.useEffect(() => {
         const sendRequest = async () => {
             try {
                 res = await axios.post("http://localhost:8080", user);
-                console.log(res);
 
                 if (!res.data.isinDB) {
                     setRedirect(true);
@@ -34,6 +30,16 @@ const MainUser = () => {
             }
         }
         sendRequest().catch(console.error);
+
+        const getUsers = async () => {
+            try {
+                res = await axios.post("http://localhost:8080/get-user", user);
+                setDBUser(res.data.user);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getUsers().catch(console.error);
     }, [user, isAuthenticated])
     
 
@@ -53,10 +59,10 @@ const MainUser = () => {
                 </div>
                 <div className="message">
                     <p>Doneaza azi pentru a ajuta oamenii afectati de razboi!</p>
-                </div>            
+                </div>
             </div>
             <div className='header'>
-                <Header username={user.nickname} />
+                <Header username={DBUser.username} />
             </div>
         </div>    
     );
