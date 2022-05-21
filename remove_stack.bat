@@ -9,3 +9,4 @@ docker service rm idp_portainer
 docker service rm idp_rabbitmq
 docker service rm idp_grafana
 docker service rm idp_loki
+docker service rm idp_worker
