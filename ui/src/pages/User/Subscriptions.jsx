@@ -7,11 +7,6 @@ function handleDonate(city, center, product) {}
 
 function handleNotif (city, center, product) {}
 
-function handleLogoButton () {}
-function handleDonationButton () {}
-function handleNotifButton () {}
-function handleAccountButton () {}
-
 const Subscriptions = ({username}) =>
 {
   return (
@@ -30,7 +25,7 @@ const Subscriptions = ({username}) =>
             </div>  
         </div>
         <div className='header'>
-        <Header username={username} handleLogoButton={handleLogoButton} handleDonationButton={handleDonationButton} handleNotifButton={handleNotifButton} handleAccountButton={handleAccountButton} />
+          <Header username={username} />
         </div>
       
     </div>

@@ -13,7 +13,7 @@ function handleDonationButton () {}
 function handleNotifButton () {}
 function handleAccountButton () {}
 
-const UserDonations = () => {
+const MainUser = () => {
     const { user, isAuthenticated } = useAuth0();
     const [redirect, setRedirect] = React.useState(false);
     let res = null;
@@ -56,10 +56,10 @@ const UserDonations = () => {
                 </div>            
             </div>
             <div className='header'>
-                <Header username={user.nickname} handleLogoButton={handleLogoButton} handleDonationButton={handleDonationButton} handleNotifButton={handleNotifButton} handleAccountButton={handleAccountButton} />
+                <Header username={user.nickname} />
             </div>
         </div>    
     );
 }
 
-export default UserDonations;
+export default MainUser;

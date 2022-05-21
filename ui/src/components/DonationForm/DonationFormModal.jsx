@@ -1,6 +1,5 @@
 import React from "react";
 import './NewDonationForm.css';
-import ThankYouMessage from '../../components/ThankYouMessage/ThankYouMessage'
 
 const DonationFormModal = ({
     city,

@@ -3,15 +3,16 @@ import './MainPageUser.css';
 import DonationCardAdmin from '../../components/DonationCard/DonationCardAdmin';
 import HeaderAdmin from '../../components/Header/HeaderAdmin';
 import add from '../../media/add.png';
+import { Navigate } from "react-router-dom";
 
-
-const AdminDonations = ({username}) => {
+const MainAdmin = ({username}) => {
+  const [redirectLink, setRedirectLink] = React.useState(undefined);
   const handleAdd = () => {
-    // navigate('/new-donation', true);
+    setRedirectLink("/admin/new");
   }
   return (
     <div className="main-page-user">
-        
+        {(redirectLink !== undefined) && <Navigate to = {redirectLink} />}
         <div className='content'>
                      
             <div className="donations">
@@ -41,4 +42,4 @@ const AdminDonations = ({username}) => {
   );
 };
 
-export default AdminDonations;
+export default MainAdmin;
