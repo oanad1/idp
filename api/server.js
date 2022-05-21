@@ -64,6 +64,28 @@ app.post("/get-location", async(req, res, next) => {
   })
 })
 
+app.post("/get-products-location", async(req, res, next) => {
+  User.findOne( {email: req.body.email}, function(error, user) {
+    if (error || !user) {
+      console.log(error);
+      return res.status(500).json({message: "not ok"});
+    }
+    Location.findById(user.locationID, function(error, location) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({message: "not ok"});
+      }
+      Product.find( {locationID: user.locationID}, function(error, prod) {
+        if (error) {
+          console.log(error);
+          return res.status(500).json({message: "not ok"});
+        }
+        return res.json({location: location, prod: prod})
+      })
+    })
+  })
+})
+
 app.post("/req-donation", async(req, res, next) => {
   User.findOne( {email: req.body.user.email}, async function(error, user) {
     if (error || !user) {
@@ -79,6 +101,16 @@ app.post("/req-donation", async(req, res, next) => {
     await prod.save().then(() => console.log("Product request made"));
     return res.status(200).json({message: 'ok'});
   })
+})
+
+app.post("/delete-product", async(req, res, next) => {
+  Product.deleteOne( {_id: req.body.id}, async function(error, ack) {
+    if (error || !ack) {
+      console.log(error);
+      return res.status(500).json({message: "not ok"});
+    }
+    return res.status(200).json({message: ack});
+  } )
 })
 
 // app.post("/req-donation", async(req, res, next) => {

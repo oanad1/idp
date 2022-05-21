@@ -1,5 +1,7 @@
+import axios from "axios";
 import React from "react";
 import "./DonationCard.css";
+import { Navigate } from "react-router-dom";
 
 const DonationCardAdmin = ({
     city,
@@ -7,15 +9,25 @@ const DonationCardAdmin = ({
     product,
     q_current,
     q_target,
-    active
+    active,
+    id
 }) => {
+    const [redirectLink, setRedirectLink] = React.useState(undefined);
+
     const handleDelete = () => {
-        console.log('Delete ${product} ${city} ${center}');
+        const obj = {id: id};
+
+        axios.post("http://localhost:8080/delete-product", obj).catch(error => {
+            console.log(error);
+        }).then(() => {
+            setRedirectLink("/admin/panel");
+        });
     }
 
     return(
 
     <div className={active ? "donation-card active" : "donation-card"}>
+        {(redirectLink !== undefined) && <Navigate to = {redirectLink} />}
         <div>
         <div className="donation-group">
             <div className="donation-place">
@@ -34,10 +46,10 @@ const DonationCardAdmin = ({
         </div>
         <div className="button-div">
         {
-            !active && <button className="donate-button delete-button" onClick={() => handleDelete({city, center, product})}> Sterge</button>
+            !active && <button className="donate-button delete-button" onClick={() => handleDelete({id})}> Sterge</button>
         }
         {
-            active &&  <button className="donate-button " onClick={() => handleDelete({city, center, product})}>
+            active &&  <button className="donate-button " onClick={() => handleDelete({id})}>
                 Sterge
             </button>
         }

@@ -16,6 +16,7 @@ const Products = () =>
 
   const [DBUser, setDBUser] = React.useState({});
   const { user, isAuthenticated } = useAuth0();
+  const [products, setProducts] = React.useState({});
 
   React.useEffect(() => {
     const getUsers = async () => {
@@ -27,6 +28,16 @@ const Products = () =>
         }
     }
     getUsers().catch(console.error);
+
+    const getProducts = async () => {
+      try {
+        const res = await axios.post("http://localhost:8080/get-products-location", user);
+        setProducts(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getProducts().catch(console.error);
   }, [user, isAuthenticated])
 
   return (
@@ -35,10 +46,29 @@ const Products = () =>
         <div className='content'>
                      
             <div className="donations">
-            <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="100" q_target="100"  active={false}  />
+            {/* <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="100" q_target="100"  active={false}  />
             <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="100" q_target="100" active={false}  />
             <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="50" q_target="50"  active={false}  />
-            <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="100" q_target="100"  active={false} />
+            <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="100" q_target="100"  active={false} /> */}
+              {products && products.prod && products.prod.map((x, index) => {
+                if (x.requestedQuantity === x.donatedQuantity) {
+                  return (
+                    <div>
+                      <DonationCardAdmin 
+                      city={products.location.city}
+                      center={products.location.name}
+                      product={x.name} 
+                      q_current={x.donatedQuantity + ""} 
+                      q_target={x.requestedQuantity + ""}
+                      active={false}
+                      id={x._id} />
+                    </div>
+                  )
+                }
+                return(
+                  <div />
+                )
+              })}
             </div>
             <div className="message">
                 <p>Donatii finalizate la centrul tau</p>

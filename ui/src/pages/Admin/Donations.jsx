@@ -10,6 +10,7 @@ import axios from "axios";
 const MainAdmin = () => {
   const [redirectLink, setRedirectLink] = React.useState(undefined);
   const [DBUser, setDBUser] = React.useState({});
+  const [products, setProducts] = React.useState({});
   const handleAdd = () => {
     setRedirectLink("/admin/new");
   }
@@ -25,6 +26,16 @@ const MainAdmin = () => {
         }
     }
     getUsers().catch(console.error);
+
+    const getProducts = async () => {
+      try {
+        const res = await axios.post("http://localhost:8080/get-products-location", user);
+        setProducts(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getProducts().catch(console.error);
 }, [user, isAuthenticated])
 
   return (
@@ -33,14 +44,20 @@ const MainAdmin = () => {
         <div className='content'>
                      
             <div className="donations">
-            <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="50" q_target="100"  active={true} />
-            <DonationCardAdmin city="Bucuresti" center="Centru B" product="Apa minerala" q_current="100" q_target="100"  active={false} />
-            <DonationCardAdmin city="Bucuresti" center="Centru C" product="Apa minerala" q_current="50" q_target="100"  active={true} />
-            <DonationCardAdmin city="Bucuresti" center="Centru D" product="Apa minerala" q_current="100" q_target="100"  active={false} />
-            <DonationCardAdmin city="Bucuresti" center="Centru E" product="Apa minerala" q_current="50" q_target="100"  active={true} />
-            <DonationCardAdmin city="Bucuresti" center="Centru F" product="Apa minerala" q_current="100" q_target="100"  active={false} />
-            <DonationCardAdmin city="Bucuresti" center="Centru G" product="Apa minerala" q_current="50" q_target="100"  active={true} />
-            <DonationCardAdmin city="Bucuresti" center="Centru H" product="Apa minerala" q_current="100" q_target="100" active={false}  />
+              {products && products.prod && products.prod.map((x, index) => {
+                return (
+                  <div>
+                    <DonationCardAdmin 
+                    city={products.location.city}
+                    center={products.location.name}
+                    product={x.name} 
+                    q_current={x.donatedQuantity + ""} 
+                    q_target={x.requestedQuantity + ""}
+                    active={x.requestedQuantity - x.donatedQuantity > 0}
+                    id={x._id} />
+                  </div>
+                )
+              })}
             </div>
             <div className="message">
                 <p>Donatii la centrul tau</p>
