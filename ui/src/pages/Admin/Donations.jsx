@@ -48,8 +48,8 @@ const MainAdmin = () => {
                 return (
                   <div>
                     <DonationCardAdmin 
-                    city={products.location.city}
-                    center={products.location.name}
+                    city={x.cityName}
+                    center={x.centreName}
                     product={x.name} 
                     q_current={x.donatedQuantity + ""} 
                     q_target={x.requestedQuantity + ""}

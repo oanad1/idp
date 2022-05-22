@@ -13,6 +13,7 @@ app.use(bp.urlencoded({ extended: true }))
 const User = require("./src/User.model");
 const Location = require("./src/Location.model");
 const Product = require("./src/Products.model");
+const { json } = require("body-parser");
 // const auth = require("./routes/auth");
 
 app.post("/", async (req, res, next) => {
@@ -33,6 +34,7 @@ app.post("/register", async (req, res, next) => {
     isAdmin: false,
     locationID: null,
     notifications: [],
+    donations: []
   })
   await user.save().then(() => console.log("User created"));
   return res.status(200).json({message: 'ok'});
@@ -75,15 +77,51 @@ app.post("/get-products-location", async(req, res, next) => {
         console.log(error);
         return res.status(500).json({message: "not ok"});
       }
-      Product.find( {locationID: user.locationID}, function(error, prod) {
+      Product.find( {centreName: location.name, cityName: location.city}, function(error, prod) {
         if (error) {
           console.log(error);
           return res.status(500).json({message: "not ok"});
         }
-        return res.json({location: location, prod: prod})
+        return res.json({prod: prod})
       })
     })
   })
+})
+
+app.post("/get-all-products-location", async(req, res, next) => {
+  User.findOne( {email: req.body.email}, function(error, user) {
+    if (error || !user) {
+      console.log(error);
+      return res.status(500).json({message: "not ok"});
+    }
+    Product.find({}, function(error, prod) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({message: "not ok"});
+      }
+      return res.json({prod: prod});
+    })
+  })
+})
+
+app.post("/put-donation", async(req, res, next) => {
+  Product.findById(req.body.id, async function(error, prod) {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({message: "not ok"});
+    }
+    User.findOne( {email: req.body.user.email}, async function(error, user) {
+      if (error || !user) {
+        console.log(error);
+        return res.status(500).json({message: "not ok"});
+      }
+      user.donations.push(prod);
+      await user.save().then(() => console.log("Donation put"));
+      prod.donatedQuantity += Number(req.body.quantity);
+      await prod.save().then(() => console.log("Quantity increased"));
+      return res.status(200).json({message: 'ok'});
+    } )
+  } )
 })
 
 app.post("/req-donation", async(req, res, next) => {
@@ -92,14 +130,21 @@ app.post("/req-donation", async(req, res, next) => {
       console.log(error);
       return res.status(500).json({message: error});
     }
-    const prod = new Product({
-      name: req.body.produs,
-      locationID: user.locationID,
-      requestedQuantity: req.body.cantitate,
-      donatedQuantity: 0,
-    })
-    await prod.save().then(() => console.log("Product request made"));
-    return res.status(200).json({message: 'ok'});
+    Location.findById( user.locationID, async function(error, location) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({message: error});
+      }
+      const prod = new Product({
+        name: req.body.produs,
+        centreName: location.name,
+        cityName: location.city,
+        requestedQuantity: req.body.cantitate,
+        donatedQuantity: 0,
+      })
+      await prod.save().then(() => console.log("Product request made"));
+      return res.status(200).json({message: 'ok'});
+    } )
   })
 })
 

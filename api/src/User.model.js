@@ -36,7 +36,11 @@ const userSchema = new mongoose.Schema({
   },
   notifications: {
     type: [tupleSchema]
-  }
+  },
+  donations: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Products",
+  } 
 });
 
 const User = mongoose.model("User", userSchema);

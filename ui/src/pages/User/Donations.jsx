@@ -6,19 +6,16 @@ import axios from 'axios';
 import { Navigate } from "react-router-dom";
 import Header from '../../components/Header/Header';
 
-function handleDonate(city, center, product) {}
-function handleNotif (city, center, product) {}
-
 const MainUser = () => {
     const { user, isAuthenticated } = useAuth0();
     const [redirect, setRedirect] = React.useState(false);
     const [DBUser, setDBUser] = React.useState({});
-    let res = null;
+    const [products, setProducts] = React.useState({});
 
     React.useEffect(() => {
         const sendRequest = async () => {
             try {
-                res = await axios.post("http://localhost:8080", user);
+                const res = await axios.post("http://localhost:8080", user);
 
                 if (!res.data.isinDB) {
                     setRedirect(true);
@@ -33,13 +30,24 @@ const MainUser = () => {
 
         const getUsers = async () => {
             try {
-                res = await axios.post("http://localhost:8080/get-user", user);
+                const res = await axios.post("http://localhost:8080/get-user", user);
                 setDBUser(res.data.user);
             } catch (error) {
                 console.log(error);
             }
         }
         getUsers().catch(console.error);
+
+        const getProducts = async () => {
+            try {
+              const res = await axios.post("http://localhost:8080/get-all-products-location", user);
+              console.log(res.data);
+              setProducts(res.data);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+          getProducts().catch(console.error);
     }, [user, isAuthenticated])
     
 
@@ -48,14 +56,21 @@ const MainUser = () => {
             {redirect && <Navigate to = "register" />}
             <div className='content'>
                 <div className="donations">
-                    <DonationCard city="Bucuresti" center="Centru A" product="Apa minerala" q_current="50" q_target="100"  active={true} notif={true} handleDonate={handleDonate} handleNotif={handleNotif} />
-                    <DonationCard city="Bucuresti" center="Centru B" product="Apa minerala" q_current="100" q_target="100" active={false} notif={false} handleDonate={handleDonate} handleNotif={handleNotif} />
-                    <DonationCard city="Bucuresti" center="Centru C" product="Apa minerala" q_current="50" q_target="100" active={true} notif={false} handleDonate={handleDonate} handleNotif={handleNotif} />
-                    <DonationCard city="Bucuresti" center="Centru D" product="Apa minerala" q_current="100" q_target="100" active={false} notif={true} handleDonate={handleDonate} handleNotif={handleNotif} />
-                    <DonationCard city="Bucuresti" center="Centru E" product="Apa minerala" q_current="50" q_target="100"  active={true} notif={true} handleDonate={handleDonate} handleNotif={handleNotif} />
-                    <DonationCard city="Bucuresti" center="Centru F" product="Apa minerala" q_current="100" q_target="100"  active={false} notif={false} handleDonate={handleDonate} handleNotif={handleNotif} />
-                    <DonationCard city="Bucuresti" center="Centru G" product="Apa minerala" q_current="50" q_target="100"  active={true} notif={false} handleDonate={handleDonate} handleNotif={handleNotif} />
-                    <DonationCard city="Bucuresti" center="Centru H" product="Apa minerala" q_current="100" q_target="100"  active={false} notif={true} handleDonate={handleDonate} handleNotif={handleNotif} />
+                    {products && products.prod && products.prod.map((x, index) => {
+                    return (
+                        <div>
+                            <DonationCard
+                            city={x.cityName}
+                            center={x.centreName}
+                            product={x.name} 
+                            q_current={x.donatedQuantity} 
+                            q_target={x.requestedQuantity}
+                            active={x.requestedQuantity - x.donatedQuantity > 0}
+                            notif={true}
+                            id={x._id} />
+                        </div>
+                        )
+                    })}
                 </div>
                 <div className="message">
                     <p>Doneaza azi pentru a ajuta oamenii afectati de razboi!</p>

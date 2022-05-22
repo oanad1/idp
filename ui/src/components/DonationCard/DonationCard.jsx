@@ -10,7 +10,8 @@ const DonationCard = ({
     q_current,
     q_target,
     active,
-    notif
+    notif,
+    id
 }) => {
     const [isOpenForm, setIsOpenForm] = React.useState(false);
     const handleNotif = () => {
@@ -18,7 +19,6 @@ const DonationCard = ({
     }
 
     const handleDonate = () => {
-        console.log(`Donate ${ product } ${ city } ${ center }`);
         setIsOpenForm(true);
     }
 
@@ -64,7 +64,7 @@ const DonationCard = ({
             }
         </div>
         {
-            isOpenForm && <DonationFormModal city={city} center={center} product={product} q_current={q_current} q_target={q_target} setIsOpenForm={setIsOpenForm} />
+            isOpenForm && <DonationFormModal city={city} center={center} product={product} q_current={q_current} q_target={q_target} setIsOpenForm={setIsOpenForm} id={id} />
         }
     </div>
 

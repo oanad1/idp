@@ -55,8 +55,8 @@ const Products = () =>
                   return (
                     <div>
                       <DonationCardAdmin 
-                      city={products.location.city}
-                      center={products.location.name}
+                      city={x.city}
+                      center={x.name}
                       product={x.name} 
                       q_current={x.donatedQuantity + ""} 
                       q_target={x.requestedQuantity + ""}

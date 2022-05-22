@@ -5,10 +5,6 @@ import Header from '../../components/Header/Header'
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from 'axios';
 
-function handleDonate(city, center, product) {}
-
-function handleNotif (city, center, product) {}
-
 const Subscriptions = () =>
 {
   const [DBUser, setDBUser] = React.useState({});
@@ -32,10 +28,10 @@ const Subscriptions = () =>
         <div className='content'>
                      
             <div className="donations">
-            <DonationCard city="Bucuresti" center="Centru A" product="Apa minerala" q_current="50" q_target="100"  active={true} notif={true} handleDonate={handleDonate} handleNotif={handleNotif} />
-            <DonationCard city="Bucuresti" center="Centru D" product="Apa minerala" q_current="100" q_target="100" active={false} notif={true} handleDonate={handleDonate} handleNotif={handleNotif} />
-            <DonationCard city="Bucuresti" center="Centru E" product="Apa minerala" q_current="50" q_target="100"  active={true} notif={true} handleDonate={handleDonate} handleNotif={handleNotif} />
-            <DonationCard city="Bucuresti" center="Centru H" product="Apa minerala" q_current="100" q_target="100"  active={false} notif={true} handleDonate={handleDonate} handleNotif={handleNotif} />
+            <DonationCard city="Bucuresti" center="Centru A" product="Apa minerala" q_current="50" q_target="100"  active={true} notif={true} />
+            <DonationCard city="Bucuresti" center="Centru D" product="Apa minerala" q_current="100" q_target="100" active={false} notif={true} />
+            <DonationCard city="Bucuresti" center="Centru E" product="Apa minerala" q_current="50" q_target="100"  active={true} notif={true} />
+            <DonationCard city="Bucuresti" center="Centru H" product="Apa minerala" q_current="100" q_target="100"  active={false} notif={true} />
             </div>
             <div className="message">
                 <p>Doneaza produsele care te intereseaza!</p>

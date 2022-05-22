@@ -5,9 +5,13 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  locationID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Location",
+  centreName: {
+    type: String,
+    required: true,
+  },
+  cityName: {
+    type: String,
+    required: true,
   },
   requestedQuantity: {
     type: Number,
