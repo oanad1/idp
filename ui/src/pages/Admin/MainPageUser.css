@@ -1,8 +1,3 @@
-/* .main-page-user {
-    display:flex;
-} */
-
-
 .content {
     top: 114px; 
     position: absolute;
@@ -17,14 +12,11 @@
 .message {
     font-size: 32px;
     font-weight: bold;
-    /* top:0px;
-    position: absolute; */
     width: 100%;
     height: max-content;
 
     position: fixed;
     background-color: white;
-    /* line-height: 12px; */
 }
 
 .donations {
@@ -57,12 +49,6 @@
     max-height: 100%;
 }
 
-
-/* .donation-page-admin {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-} */
 .new-donation-form {
     margin: 0;
   position: absolute;

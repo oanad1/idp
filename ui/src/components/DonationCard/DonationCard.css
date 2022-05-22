@@ -13,8 +13,6 @@
 
     margin-bottom: 32px;
 
-/* Inside auto layout */
-
     flex: none;
     order: 0;
     flex-grow: 0;
@@ -110,8 +108,6 @@
 
 .delete-button {
     cursor: pointer;
-    /* background-color: #d7d7d7 !important;
-    color: black; */
     color: white;
     background-color: black;
 }

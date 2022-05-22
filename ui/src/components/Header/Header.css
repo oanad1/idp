@@ -11,13 +11,11 @@
     flex: none;
     order: 0;
     flex-grow: 0;
-    /* align-items: flex-start; */
 
 
 }
 
 .logo-box {
-    /* flex-grow: 8; */
     width: 114px;
     height: 114px;
     flex: 80%;
@@ -26,7 +24,6 @@
 }
 
 .account-info-box {
-    /* flex-grow: 1; */
     flex: 20%;
     align-items: flex-end;
 }
@@ -34,8 +31,6 @@
 .images {
     width:40px  !important;
     height: 40px  !important;
-    /* display:block; */
-    /* object-fit: cover !important; */
     object-fit: scale-down !important;
     border: 0px;
 }
@@ -44,7 +39,6 @@
     width:114px;
     height: 114px;
     display:block;
-    /* object-fit: cover !important; */
     object-fit: scale-down !important;
     border: 0px;
 }

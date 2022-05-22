@@ -13,7 +13,6 @@ app.use(bp.urlencoded({ extended: true }))
 const { User, Tuple } = require("./src/User.model");
 const Location = require("./src/Location.model");
 const Product = require("./src/Products.model");
-// const auth = require("./routes/auth");
 
 app.post("/", async (req, res, next) => {
   User.findOne( {email: req.body.email}, function(error, user) {
@@ -208,27 +207,6 @@ app.post("/delete-product", async(req, res, next) => {
     return res.status(200).json({message: ack});
   } )
 })
-
-// app.post("/req-donation", async(req, res, next) => {
-
-// })
-
-// // Get users from MongoDB
-// app.get("/users", async (req, res) => {
-//     const users = await User.find();
-  
-//     res.json(users);
-// });
-
-// // Create new user in MongoDB
-// app.get("/user-create", async (req, res) => {
-//     const user = new User({ username: "userTest" });
-  
-//     await user.save().then(() => console.log("User created"));
-  
-//     res.send("User created \n");
-//   });
-// // ---------
 
 app.listen(process.env.PORT, function() {
   console.log(`Listening on ${process.env.PORT}`);
