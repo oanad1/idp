@@ -1,13 +1,17 @@
 const mongoose = require("mongoose");
 
 const tupleSchema = new mongoose.Schema({
-  location: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Location",
-  },
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Products",
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+  confirmed: {
+    type: Boolean,
+    required: true,
   }
 });
 
@@ -35,14 +39,14 @@ const userSchema = new mongoose.Schema({
     ref: "Location",
   },
   notifications: {
-    type: [tupleSchema]
-  },
-  donations: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Products",
+  },
+  donations: {
+    type: [tupleSchema],
   } 
 });
 
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+module.exports = { User, Tuple };

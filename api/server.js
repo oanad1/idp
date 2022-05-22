@@ -10,10 +10,9 @@ app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
 
 // ----- Test API - se poate sterge
-const User = require("./src/User.model");
+const { User, Tuple } = require("./src/User.model");
 const Location = require("./src/Location.model");
 const Product = require("./src/Products.model");
-const { json } = require("body-parser");
 // const auth = require("./routes/auth");
 
 app.post("/", async (req, res, next) => {
@@ -66,6 +65,16 @@ app.post("/get-location", async(req, res, next) => {
   })
 })
 
+app.post("/get-product", async(req, res, next) => {
+  Product.findById(req.body.id, function(error, prod) {
+    if (error || !prod) {
+      console.log(error);
+      return res.status(500).json({message: error});
+    }
+    return res.json({prod: prod});
+  })
+})
+
 app.post("/get-products-location", async(req, res, next) => {
   User.findOne( {email: req.body.email}, function(error, user) {
     if (error || !user) {
@@ -104,6 +113,16 @@ app.post("/get-all-products-location", async(req, res, next) => {
   })
 })
 
+app.post("/get-donations", async(req, res, next) => {
+  User.findOne( {email: req.body.email}, function(error, user) {
+    if (error || !user) {
+      console.log(error);
+      return res.status(500).json({message: "not ok"});
+    }
+    return res.json({prod: user.donations});
+  })
+})
+
 app.post("/put-donation", async(req, res, next) => {
   Product.findById(req.body.id, async function(error, prod) {
     if (error) {
@@ -115,7 +134,12 @@ app.post("/put-donation", async(req, res, next) => {
         console.log(error);
         return res.status(500).json({message: "not ok"});
       }
-      user.donations.push(prod);
+      const tuple = new Tuple({
+        product: prod._id,
+        quantity: Number(req.body.quantity),
+        confirmed: false
+      })
+      user.donations.push(tuple);
       await user.save().then(() => console.log("Donation put"));
       prod.donatedQuantity += Number(req.body.quantity);
       await prod.save().then(() => console.log("Quantity increased"));
@@ -145,6 +169,33 @@ app.post("/req-donation", async(req, res, next) => {
       await prod.save().then(() => console.log("Product request made"));
       return res.status(200).json({message: 'ok'});
     } )
+  })
+})
+
+app.post("/put-notification", async(req, res, next) => {
+    User.findOne( {email: req.body.user.email}, async function(error, user) {
+      if (error || !user) {
+        console.log(error);
+        return res.status(500).json({message: 'caca'});
+      }
+      user.notifications.push(req.body.id);
+      await user.save().then(() => console.log("Notification put"));
+      return res.status(200).json({message: 'ok'});
+    })
+})
+
+app.post("/delete-notification", async(req, res, next) => {
+  User.findOne( {email: req.body.user.email}, async function(error, user) {
+    if (error || !user) {
+      console.log(error);
+      return res.status(500).json({message: 'caca'});
+    }
+    const index = user.notifications.indexOf(req.body.id);
+    if (index > -1) {
+      user.notifications.splice(index, 1);
+    }
+    await user.save().then(() => console.log("Notification deleted"));
+    return res.status(200).json({message: 'ok'});
   })
 })
 

@@ -13,7 +13,7 @@ const DonationFormModal = ({
     setIsOpenForm,
     id
 }) => {
-    const { user, isAuthenticated } = useAuth0();
+    const { user } = useAuth0();
     const [cantitate, setCantitate] = React.useState("");
     const [redirectLink, setRedirectLink] = React.useState(undefined);
 

@@ -9,6 +9,7 @@ const Subscriptions = () =>
 {
   const [DBUser, setDBUser] = React.useState({});
   const { user, isAuthenticated } = useAuth0();
+  const [products, setProducts] = React.useState({});
   
   React.useEffect(() => {
     const getUsers = async () => {
@@ -20,6 +21,16 @@ const Subscriptions = () =>
         }
     }
     getUsers().catch(console.error);
+
+    const getProducts = async () => {
+      try {
+        const res = await axios.post("http://localhost:8080/get-all-products-location", user);
+        setProducts(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getProducts().catch(console.error);
   }, [user, isAuthenticated])
 
   return (
@@ -28,10 +39,28 @@ const Subscriptions = () =>
         <div className='content'>
                      
             <div className="donations">
-            <DonationCard city="Bucuresti" center="Centru A" product="Apa minerala" q_current="50" q_target="100"  active={true} notif={true} />
-            <DonationCard city="Bucuresti" center="Centru D" product="Apa minerala" q_current="100" q_target="100" active={false} notif={true} />
-            <DonationCard city="Bucuresti" center="Centru E" product="Apa minerala" q_current="50" q_target="100"  active={true} notif={true} />
-            <DonationCard city="Bucuresti" center="Centru H" product="Apa minerala" q_current="100" q_target="100"  active={false} notif={true} />
+              {products && products.prod && products.prod.map((x, index) => {
+                if (DBUser.notifications.indexOf(x._id) !== -1) {
+                  return (
+                    <div>
+                      <DonationCard
+                        city={x.cityName}
+                        center={x.centreName}
+                        product={x.name} 
+                        q_current={x.donatedQuantity} 
+                        q_target={x.requestedQuantity}
+                        active={x.requestedQuantity - x.donatedQuantity > 0}
+                        notif={false}
+                        id={x._id} />
+                    </div>
+                  )
+                }
+                else {
+                  return (
+                    <div />
+                  )
+                }
+              })}
             </div>
             <div className="message">
                 <p>Doneaza produsele care te intereseaza!</p>

@@ -46,10 +46,6 @@ const Products = () =>
         <div className='content'>
                      
             <div className="donations">
-            {/* <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="100" q_target="100"  active={false}  />
-            <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="100" q_target="100" active={false}  />
-            <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="50" q_target="50"  active={false}  />
-            <DonationCardAdmin city="Bucuresti" center="Centru A" product="Apa minerala" q_current="100" q_target="100"  active={false} /> */}
               {products && products.prod && products.prod.map((x, index) => {
                 if (x.requestedQuantity === x.donatedQuantity) {
                   return (

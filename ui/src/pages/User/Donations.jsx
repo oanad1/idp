@@ -66,7 +66,7 @@ const MainUser = () => {
                             q_current={x.donatedQuantity} 
                             q_target={x.requestedQuantity}
                             active={x.requestedQuantity - x.donatedQuantity > 0}
-                            notif={true}
+                            notif={DBUser.notifications.indexOf(x._id) === -1}
                             id={x._id} />
                         </div>
                         )

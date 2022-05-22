@@ -13,7 +13,7 @@ const AccountDataFormAdmin = ({
             <p className="form-title">
                 Informatii cont
             </p>
-            <form className="donation-form">
+            <form>
                 <fieldset className="field">
                     <label className="label">Username:</label>
                     <label className="value">{username}</label>    

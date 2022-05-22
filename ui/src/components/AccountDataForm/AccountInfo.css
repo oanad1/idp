@@ -1,6 +1,6 @@
 .account-info-box {
     /* border: 1px solid #d7d7d7; */
-    width: 521px;
+    width: fit-content !important;
 }
 
 .form-title {

@@ -2,6 +2,9 @@ import React from "react";
 import "./DonationCard.css";
 import bell from '../../media/bell.png';
 import DonationFormModal from '../DonationForm/DonationFormModal';
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 const DonationCard = ({
     city,
@@ -14,8 +17,35 @@ const DonationCard = ({
     id
 }) => {
     const [isOpenForm, setIsOpenForm] = React.useState(false);
-    const handleNotif = () => {
-        console.log(`Notif ${ product } ${ city } ${ center }`);
+    const { user } = useAuth0();
+    const [redirectLink, setRedirectLink] = React.useState(undefined);
+
+    const handleNotifActive = () => {
+        const obj = {
+            user: user,
+            id: id,
+        }
+
+        axios.post("http://localhost:8080/put-notification", obj).catch(error => {
+            console.log(error);
+            setRedirectLink(undefined);
+        }).then(() => {
+            setRedirectLink("/panel");
+        });
+    }
+
+    const handleNotifInactive = () => {
+        const obj = {
+            user: user,
+            id: id,
+        }
+
+        axios.post("http://localhost:8080/delete-notification", obj).catch(error => {
+            console.log(error);
+            setRedirectLink(undefined);
+        }).then(() => {
+            setRedirectLink("/panel");
+        });
     }
 
     const handleDonate = () => {
@@ -25,6 +55,7 @@ const DonationCard = ({
     return(
 
     <div className={active ? "donation-card active" : "donation-card"}>
+        {(redirectLink !== undefined) && <Navigate to = {redirectLink} />}
         <div>
         <div className="donation-group">
             <div className="donation-place">
@@ -54,11 +85,11 @@ const DonationCard = ({
         </div>
         <div className="donation-notif">
             {
-                notif && <button className="notif-icon" onClick={() => handleNotif()}>
+                notif && <button className="notif-icon" onClick={() => handleNotifActive()}>
                     <img className="notif-icon" src={bell}></img>
                 </button>
             }{
-                !notif && <button className="notif-icon inactive-notif" onClick={() => handleNotif()}>
+                !notif && <button className="notif-icon inactive-notif" onClick={() => handleNotifInactive()}>
                 <img className="notif-icon" src={bell}></img>
                 </button>
             }

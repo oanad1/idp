@@ -9,6 +9,7 @@ const UserDonations = () =>
 {
   const [DBUser, setDBUser] = React.useState({});
   const { user, isAuthenticated } = useAuth0();
+  const [donations, setDonations] = React.useState([]);
 
   React.useEffect(() => {
     const getUsers = async () => {
@@ -20,6 +21,16 @@ const UserDonations = () =>
         }
     }
     getUsers().catch(console.error);
+
+    const getDonations = async () => {
+      try {
+        const res = await axios.post("http://localhost:8080/get-donations", user);
+        setDonations(res.data.prod);
+      } catch (error) {
+          console.log(error);
+      }
+    }
+    getDonations().catch(console.error);
     
   }, [user, isAuthenticated])
 
@@ -29,10 +40,17 @@ const UserDonations = () =>
         <div className='content'>
                      
             <div className="donations">
-            {/* <DonationCardConfirm city="Bucuresti" center="Centru A" product="Apa minerala" q_donated="10"  active={true} notif={true} />
-            <DonationCardConfirm city="Bucuresti" center="Centru D" product="Apa minerala" q_donated="20" active={false} notif={true} />
-            <DonationCardConfirm city="Bucuresti" center="Centru E" product="Apa minerala" q_donated="30" active={true} notif={true} />
-            <DonationCardConfirm city="Bucuresti" center="Centru H" product="Apa minerala" q_donated="40"  active={false} notif={true} /> */}
+              {donations !== [] && donations.map((x, index) => {
+                    return (
+                        <div>
+                            <DonationCardConfirm
+                            q_donated = {x.quantity}
+                            active = {!x.confirmed}
+                            notif={DBUser.notifications.indexOf(x.product) === -1}
+                            id={x.product} />
+                        </div>
+                        )
+                    })}
             </div>
             <div className="message">
                 <p>Multumim ca ai ales sa ajuti!</p>
